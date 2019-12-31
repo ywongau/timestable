@@ -1,0 +1,6 @@
+src/**/*.test.{jsx,js}
+-r mocha/register.js
+--watch
+--watch-extensions jsx
+--watch-extensions js
+--recursive

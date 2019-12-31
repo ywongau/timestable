@@ -1,0 +1,3 @@
+app/**/*.test.{ts,js}
+-r mocha/register.js
+--recursive
