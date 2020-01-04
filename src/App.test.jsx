@@ -16,48 +16,21 @@ const getDb = () => ({
 
 const fakeEngine = {
   getQuestion: () => [3, 2],
-  getAllQuestions: () => [],
-  speak: () => undefined
+  getAllQuestions: () => [[[1, 1]]],
+  speak: () => undefined,
+  getScore: () => 0
 };
 
 describe("app", () => {
   beforeEach(cleanup);
-
   it("shows question", () => {
     const App = AppFactory(fakeEngine, getDb());
     const { getByText } = render(<App />);
     return waitForElement(() => getByText("3×2="));
   });
-  it("does nothing if enter is not pressed", () => {
+  it("shows times table", () => {
     const App = AppFactory(fakeEngine, getDb());
-    const { queryByTestId } = render(<App />);
-    const result = queryByTestId("result");
-    expect(result).to.equal(null);
-  });
-  it("shows tick if correct", () => {
-    const App = AppFactory(fakeEngine, getDb());
-    const { getByTestId, getByRole } = render(<App />);
-    return waitForElement(() => getByRole("textbox")).then(textbox => {
-      fireEvent.change(getByRole("textbox"), {
-        target: { value: "6" }
-      });
-      fireEvent.submit(getByTestId("question"), {});
-      return waitForElement(() => getByTestId("result")).then(result => {
-        expect(result.innerHTML).to.equal("✔️");
-      });
-    });
-  });
-  it("shows cross if wrong", () => {
-    const App = AppFactory(fakeEngine, getDb());
-    const { getByTestId, getByRole } = render(<App />);
-    return waitForElement(() => getByRole("textbox")).then(textbox => {
-      fireEvent.change(getByRole("textbox"), {
-        target: { value: "16" }
-      });
-      fireEvent.submit(getByTestId("question"), {});
-      return waitForElement(() => getByTestId("result")).then(result => {
-        expect(result.innerHTML).to.equal("❌");
-      });
-    });
+    const { getByText } = render(<App />);
+    return waitForElement(() => getByText("1×1"));
   });
 });

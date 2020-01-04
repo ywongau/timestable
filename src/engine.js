@@ -29,9 +29,11 @@ export default random => {
       return questions[Math.floor(random() * questions.length)];
     }
     const unanswerQuestions = notMasteredQuestions.filter(x => x[2] === 0);
+    console.warn({ unanswerQuestions });
     if (unanswerQuestions.length > 0) {
       return unanswerQuestions[Math.floor(random() * unanswerQuestions.length)];
     }
+    console.warn(notMasteredQuestions);
     return notMasteredQuestions.sort((a, b) => a[2] - b[2])[
       Math.floor(biasRandom(0, notMasteredQuestions.length, 0, 0.7))
     ];

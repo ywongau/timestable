@@ -14,10 +14,13 @@ body {
     width: 30rem;
   }
 }
-
+p {
+  font-size: 1rem;
+  margin: 0;
+}
 #question,
-input[type="number"] {
-  font-size: 6rem;
+input[type="text"] {
+  font-size: 4rem;
 }
 input[type="radio"] {
   padding: 0;
@@ -27,8 +30,8 @@ input[type="radio"] {
 #correct-answer {
   font-size: 1rem;
 }
-input[type="number"] {
-  width: 8rem;
+input[type="text"] {
+  width: 5rem;
 }
 #records {
   padding: 1rem 0;

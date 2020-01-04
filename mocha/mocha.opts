@@ -1,3 +1,4 @@
-app/**/*.test.{ts,js}
+src/**/*.test.{jsx,js}
 -r mocha/register.js
+-r mocha/setup.js
 --recursive

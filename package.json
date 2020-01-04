@@ -65,8 +65,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
-    "dev": "cross-env NODE_ENV=test mocha --opts mocha/mocha-dev.opts --reporter nyan"
+    "test": "cross-env NODE_ENV=test mocha --opts mocha/mocha.opts --reporter min",
+    "dev": "cross-env NODE_ENV=test mocha --opts mocha/mocha-dev.opts --reporter min"
   },
   "eslintConfig": {
     "extends": "react-app"

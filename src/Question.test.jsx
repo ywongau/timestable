@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitForElement
 } from "@testing-library/react";
-import App from "./Question";
+import Question from "./Question";
 import { expect } from "chai";
 import sinon from "sinon";
 describe("app", () => {
@@ -20,17 +20,17 @@ describe("app", () => {
     cleanup();
   });
   const renderQuestion = (callback = () => undefined) =>
-    render(<App x={3} y={2} callback={callback} />);
+    render(<Question question={[3, 2]} onSubmit={callback} />);
 
   const answerQuestion = (answer, callback = () => undefined) => {
-    const { getByTestId, getByRole, getByText } = renderQuestion(callback);
-    return waitForElement(() => getByRole("textbox")).then(textbox => {
+    const wrapper = renderQuestion(callback);
+    return waitForElement(() => wrapper.getByRole("textbox")).then(textbox => {
       _timers.tick(timeSpent);
       fireEvent.change(textbox, {
         target: { value: String(answer) }
       });
-      fireEvent.submit(getByTestId("question-form"), {});
-      return { getByTestId, getByRole, getByText };
+      fireEvent.submit(wrapper.getByTestId("question-form"), {});
+      return wrapper;
     });
   };
   it("shows question", () => {
@@ -48,11 +48,22 @@ describe("app", () => {
     const result = queryByTestId("result");
     expect(result).to.equal(null);
   });
-
+  it("does nothing if empty", () => {
+    return answerQuestion("").then(({ queryByTestId, getByText }) => {
+      expect(getByText("Correct answer is 6").style.visibility).to.equal(
+        "hidden"
+      );
+      const result = queryByTestId("result");
+      expect(result).to.equal(null);
+    });
+  });
   it("shows tick if correct", () => {
-    return answerQuestion(6).then(({ getByTestId }) => {
+    return answerQuestion(6).then(({ getByText, getByTestId }) => {
       const result = getByTestId("result");
       expect(result.innerHTML).to.equal("✔️");
+      expect(getByText("Correct answer is 6").style.visibility).to.equal(
+        "hidden"
+      );
     });
   });
 
@@ -69,14 +80,20 @@ describe("app", () => {
   it("calls back on submit", () => {
     const callback = sinon.spy();
     return answerQuestion(7, callback).then(() => {
-      sinon.assert.calledWith(callback, false, timeSpent / 1000);
+      sinon.assert.calledWith(callback, {
+        correct: false,
+        secondsSpent: timeSpent / 1000
+      });
     });
   });
 
   it("calls back on submit", () => {
     const callback = sinon.spy();
     return answerQuestion(6, callback).then(() => {
-      sinon.assert.calledWith(callback, true, timeSpent / 1000);
+      sinon.assert.calledWith(callback, {
+        correct: true,
+        secondsSpent: timeSpent / 1000
+      });
     });
   });
 });

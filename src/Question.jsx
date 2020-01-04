@@ -1,17 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export default ({ x, y, callback }) => {
+export default ({ question: [x, y, rnd], onSubmit }) => {
   const [answer, setAnswer] = useState(NaN);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
-  const [startTime] = useState(new Date());
+  const [startTime, setStartTime] = useState(new Date());
   const [readonly, setReadonly] = useState(false);
-
-  const onSubmit = e => {
+  const onFormSubmit = e => {
+    e.preventDefault();
+    if (inputValue === "") return;
     const submittedAnswer = Number(inputValue);
     setAnswer(submittedAnswer);
-    const secondsSpent = parseInt((new Date() - startTime) / 1000);
-    callback(submittedAnswer === x * y, secondsSpent);
+    onSubmit({
+      correct: submittedAnswer === x * y,
+      secondsSpent: parseInt((new Date() - startTime) / 1000)
+    });
     setReadonly(true);
   };
   const onAnswerChange = e => {
@@ -19,15 +22,20 @@ export default ({ x, y, callback }) => {
   };
 
   useEffect(() => {
+    setAnswer(NaN);
+    setInputValue("");
+    setReadonly(false);
+    setStartTime(new Date());
     inputRef.current.focus();
-  }, []);
+  }, [x, y, rnd]);
 
   return (
-    <form data-testid="question-form" id="question" onSubmit={onSubmit}>
+    <form data-testid="question-form" id="question" onSubmit={onFormSubmit}>
       <span>
         {x}×{y}=
       </span>
       <input
+        maxLength="2"
         ref={inputRef}
         type="text"
         pattern="^\d\d?$"
@@ -38,7 +46,13 @@ export default ({ x, y, callback }) => {
       {isNaN(answer) ? null : (
         <span data-testid="result">{x * y === answer ? "✔️" : "❌"}</span>
       )}
-      <p>Correct answer is {x * y}</p>
+      <p
+        style={{
+          visibility: x * y === answer || isNaN(answer) ? "hidden" : "visible"
+        }}
+      >
+        Correct answer is {x * y}
+      </p>
     </form>
   );
 };
