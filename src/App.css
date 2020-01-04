@@ -1,38 +1,79 @@
-.App {
-  text-align: center;
+html {
+  box-sizing: border-box;
+  font-size: 24px;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  margin: auto;
+  width: 24rem;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 12px;
+  }
+  body {
+    width: 30rem;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#question,
+input[type="number"] {
+  font-size: 6rem;
+}
+input[type="radio"] {
+  padding: 0;
+  margin: 0;
 }
 
-.App-link {
-  color: #61dafb;
+#correct-answer {
+  font-size: 1rem;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input[type="number"] {
+  width: 8rem;
+}
+#records {
+  padding: 1rem 0;
+}
+#records label span,
+#records .wrapper span {
+  padding: 8px;
+  display: inline-block;
+}
+#records label {
+  padding-left: 0;
+}
+#records .wrapper {
+  border: solid 1px black;
+  border-bottom: none;
+  border-right: none;
+  display: inline-block;
+}
+#records span.disabled {
+  opacity: 0.3;
+}
+#records .wrapper:last-child {
+  border-right: solid 1px black;
+}
+#records div:last-child .wrapper {
+  border-bottom: solid 1px black;
+}
+.priority-0 {
+  background: LightGray;
+}
+.priority-1 {
+  background: red;
+}
+.priority-2 {
+  background: orangered;
+}
+.priority-3 {
+  background: orange;
+}
+.priority-4 {
+  background: yellow;
+}
+.priority-5 {
+  background: greenyellow;
+}
+.priority-6 {
+  background: green;
 }

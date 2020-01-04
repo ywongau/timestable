@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import AppFactory from './App';
 import * as serviceWorker from './serviceWorker';
+import Db from './db';
+import Engine from './engine';
+const fakeEngine = {
+    getQuestion: () => [3, 2]
+};
+const db = Db(indexedDB);
+const App = AppFactory(Engine(Math.random), db);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
