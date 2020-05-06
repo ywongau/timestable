@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This is a tool written for my kids to practice multiplation using Chinese times table. Chinese times table has 3000 years history, it only has 45 entries because multiplication is communative and I further removed 1×? removed, In total the kids only need to memorize 36 entries. This is one of the reason why a typical smart Chinese kid can memorize times table before school age. A more important reason is Chinese langauge uses scientific notation for numbers and has no irregulars nor inflections https://www.wsj.com/articles/the-best-language-for-math-1410304008
+This is a tool written for my kids to practice multiplation using Chinese times table. Chinese times table has 3000 years history, it only has 45 entries because multiplication is communative and I further removed 1×?, in total the kids only need to memorize 36 entries. This is one of the reason why a typical smart Chinese kid can memorize times table before school age. A more important reason is Chinese langauge uses scientific notation for numbers and has no irregulars nor inflections https://www.wsj.com/articles/the-best-language-for-math-1410304008
 
 A heat map is used to indicate the mastery of the entries, from red to green
 
