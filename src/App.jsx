@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Question from "./Question";
-import TimesTable from "./TimesTable";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import Question from './Question';
+import TimesTable from './TimesTable';
+import './App.css';
 export default (engine, db) => () => {
   const [question, setQuestion] = useState([0, 0]);
   const [records, setRecords] = useState([]);
@@ -14,12 +14,12 @@ export default (engine, db) => () => {
       x,
       y,
       secondsSpent,
-      ts
+      ts,
     };
-    engine.speak(correct ? "correct" : `${x} times ${y} equals ${x * y}`);
+    engine.speak(correct ? 'correct' : `${x} times ${y} equals ${x * y}`);
     db.addRecord(record)
       .then(() => db.getRecords())
-      .then(latestRecords => {
+      .then((latestRecords) => {
         setRecords(latestRecords);
         setTimeout(
           () => {
@@ -41,7 +41,7 @@ export default (engine, db) => () => {
   };
 
   useEffect(() => {
-    db.getRecords().then(records => {
+    db.getRecords().then((records) => {
       setRecords(records);
       const question = engine.getQuestion(records, filter);
       setQuestion(question || [0, 0]);
@@ -55,8 +55,12 @@ export default (engine, db) => () => {
         onFilterChange={onFilterChange}
         questionsWithScore={engine
           .getAllQuestions()
-          .map(xs =>
-            xs.map(([x, y]) => [x, y, engine.getScore(x, y, records)])
+          .map((xs) =>
+            xs.map(([x, y]) => [
+              x,
+              y,
+              engine.scoreToPriority(engine.getScore(x, y, records)),
+            ])
           )}
       />
 
