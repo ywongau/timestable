@@ -59,22 +59,41 @@ it('gets score 2 answered correctly in 10 sec 9 days agao', () => {
   ]);
   expect(score).to.equal(-48);
 });
-it('gets score 10 answered correctly in more than 10 sec', () => {
+it('gets score 10 answered correctly in more than 20 sec', () => {
   const score = engine.getScore(2, 2, [
     { x: 2, y: 2, correct: false, ts: today },
-    { x: 2, y: 2, correct: true, ts: today, secondsSpent: 11 },
+    { x: 2, y: 2, correct: true, ts: today, secondsSpent: 21 },
   ]);
   expect(score).to.equal(-40);
 });
 it('gets score 100 if all correct', () => {
   const score = engine.getScore(2, 2, [
-    { x: 2, y: 2, correct: true, secondsSpent: 10, ts: today },
-    { x: 2, y: 2, correct: true, secondsSpent: 10, ts: today - oneDay },
-    { x: 2, y: 2, correct: true, secondsSpent: 10, ts: today },
-    { x: 2, y: 2, correct: true, secondsSpent: 10, ts: today },
-    { x: 2, y: 2, correct: true, secondsSpent: 10, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today - oneDay },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
   ]);
   expect(score).to.equal(100);
+});
+it('gets score 75 if all correct but less than 5 answered', () => {
+  const score = engine.getScore(2, 2, [
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today - oneDay },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today - oneDay * 2 },
+  ]);
+  expect(score).to.equal(75);
+});
+it('gets normal score if all correct but not answered in 20 sec', () => {
+  const score = engine.getScore(2, 2, [
+    { x: 2, y: 2, correct: true, secondsSpent: 21, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 21, ts: today - oneDay },
+    { x: 2, y: 2, correct: true, secondsSpent: 21, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+    { x: 2, y: 2, correct: true, secondsSpent: 20, ts: today },
+  ]);
+  expect(score).to.equal(69);
 });
 it('gets priority from score', () => {
   expect(engine.scoreToPriority('NaN')).to.equal(0);

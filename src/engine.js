@@ -46,17 +46,16 @@ export default (random, now) => {
       .filter((r) => r.x === x && r.y === y)
       .sort((a, b) => b.id - a.id);
     const lastTenDays = allMatched.filter((r) => r.ts > now() - tenDays);
+    const answeredIn20sec = (r) => r.correct && r.secondsSpent <= 20;
     if (lastTenDays.length === 0) return NaN;
-    if (lastTenDays.length >= 5 && lastTenDays.every((r) => r.correct))
+    if (lastTenDays.length >= 5 && lastTenDays.every(answeredIn20sec))
       return 100;
-    if (lastTenDays.every((r) => r.correct))
-      return 75;
-    
+    if (lastTenDays.every(answeredIn20sec)) return 75;
     return lastTenDays.reduce((acc, x) => {
       const weightOfRecency = (tenDays - (now() - x.ts)) / tenDays;
       return (
         acc +
-        (x.correct ? (x.secondsSpent <= 10 ? 20 : 10) : -50) * weightOfRecency
+        (x.correct ? (x.secondsSpent <= 20 ? 20 : 10) : -50) * weightOfRecency
       );
     }, 0);
   };
